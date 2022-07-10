@@ -2,9 +2,7 @@ import random
 
 import pendulum
 
-
 from RandomQueue import RandomQueue
-
 
 
 def get_names():
@@ -29,13 +27,12 @@ def pretty_print(items):
         print(item)
 
 
-def fill_mondays(mondays: list, queue: RandomQueue, bucket_size):
+def fill_mondays(mondays: list, queue: RandomQueue, bucket_size, should_throw):
     personCount = 0
     monday_count = len(mondays)
     buckets = []
     for i in range(monday_count):
         buckets.append([])
-    # print(monday_count, buckets)
     max_person_count = monday_count * bucket_size
     while personCount < max_person_count:
         added = False
@@ -43,13 +40,14 @@ def fill_mondays(mondays: list, queue: RandomQueue, bucket_size):
         attempt_count = 0
         while not added:
             bucket_index = random.randrange(monday_count)
-            # print(buckets, person)
             if person not in buckets[bucket_index] and len(buckets[bucket_index]) != bucket_size:
                 buckets[bucket_index].append(person)
                 added = True
-                # print("added: " + person)
             if attempt_count >= 100:
-                print("skipped " + person)
+                if should_throw:
+                    raise Exception("Failed to pick names")
+                else:
+                    print("skipped " + person)
                 break
             attempt_count += 1
         personCount += 1
@@ -59,6 +57,7 @@ def fill_mondays(mondays: list, queue: RandomQueue, bucket_size):
 if __name__ == '__main__':
     bucket_size = 3
     months = 6
+    should_throw = False  # throw an exception if an error occurs, else print it instead
 
     names: list = get_names()
     if len(names) < 2:
@@ -70,10 +69,6 @@ if __name__ == '__main__':
     while monthCount < months:
         date = date.add(months=1)
         mon = get_mondays_of_month(date)
-        pretty_print(fill_mondays(mon, queue, bucket_size))
+        pretty_print(fill_mondays(mon, queue, bucket_size, should_throw))
         print("")
         monthCount += 1
-
-    # pretty_print(mon)
-    # for i in range(20):
-    #     print(queue.next())
