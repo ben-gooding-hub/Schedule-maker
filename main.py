@@ -28,13 +28,13 @@ def pretty_print(items):
 
 
 def fill_mondays(mondays: list, queue: RandomQueue, bucket_size, should_throw):
-    personCount = 0
+    person_count = 0
     monday_count = len(mondays)
     buckets = []
     for i in range(monday_count):
         buckets.append([])
     max_person_count = monday_count * bucket_size
-    while personCount < max_person_count:
+    while person_count < max_person_count:
         added = False
         person = queue.next()
         attempt_count = 0
@@ -50,7 +50,7 @@ def fill_mondays(mondays: list, queue: RandomQueue, bucket_size, should_throw):
                     print("skipped " + person)
                 break
             attempt_count += 1
-        personCount += 1
+        person_count += 1
     return buckets
 
 
