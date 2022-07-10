@@ -18,7 +18,7 @@ class RandomQueue:
 
     def _set_queue(self):
         random.shuffle(self.__originalQueue)
-        self.__queue = self.__originalQueue
+        self.__queue = self.__originalQueue.copy()
 
 
 
